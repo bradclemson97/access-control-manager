@@ -48,6 +48,5 @@ public interface RoleMapper {
     Set<RoleAssignmentResponse> inheritancesToDtos(Set<RoleInheritance> inheritances);
 
     @Mapping(source = "childRole.roleName", target = "code")
-    @Mapping(source = "assignmentScope", target = "scope")
     RoleAssignmentResponse inheritanceToDto(RoleInheritance inheritance);
 }
