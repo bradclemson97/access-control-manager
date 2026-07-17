@@ -1,0 +1,9 @@
+com/example/security/client/dto/CapabilitiesResponse.class
+com/example/security/authority/CapabilityGrantedAuthority.class
+com/example/security/annotation/RequiresCapability.class
+com/example/security/authorization/CapabilityAuthorizationManager.class
+com/example/security/client/AccessControlManagerClient.class
+com/example/security/converter/AccessControlAuthenticationConverter.class
+com/example/security/config/AccessControlSecurityProperties.class
+com/example/security/config/AccessControlSecurityAutoConfiguration$1.class
+com/example/security/config/AccessControlSecurityAutoConfiguration.class

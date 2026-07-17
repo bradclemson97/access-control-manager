@@ -1,6 +1,7 @@
 package com.example.accesscontrolmanager.controller;
 
 import com.example.accesscontrolmanager.controller.request.CreateUserRequest;
+import com.example.accesscontrolmanager.controller.response.CapabilitiesResponse;
 import com.example.accesscontrolmanager.controller.response.CreateUserResponse;
 import com.example.accesscontrolmanager.exception.response.ApiError;
 import com.example.accesscontrolmanager.model.UserDto;
@@ -62,5 +63,16 @@ public interface UserController {
             @AuthenticationPrincipal(expression = "systemUserId")
             UUID systemUserId);
 
+    @Operation(summary = "Get user capabilities",
+            description = "Returns the flat set of capability codes held by the user, "
+                    + "resolved by traversing the full role inheritance hierarchy. "
+                    + "This endpoint is called by the security-library to populate the "
+                    + "Spring SecurityContext on each request.")
+    @GetMapping("{systemUserId}/capabilities")
+    @ApiResponse(responseCode = "200", description = "Capabilities retrieved successfully")
+    CapabilitiesResponse getCapabilities(
+            @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a",
+                    description = "The user's unique reference")
+            @PathVariable UUID systemUserId);
 
 }

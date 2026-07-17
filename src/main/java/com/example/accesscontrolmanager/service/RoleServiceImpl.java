@@ -105,6 +105,16 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
+    public Set<String> getCapabilities(UUID systemUserId) {
+        User user = userService.getUser(systemUserId);
+        return getInheritedRoles(user.getRoles())
+                .filter(role -> RoleTypeCode.CAPABILITY == role.getRoleTypeCode())
+                .map(Role::getRoleName)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
     public Stream<Role> getInheritedRoles(Set<Role> roles) {
         Set<Role> children = roles.stream()
                 .map(Role::getInheritedRoles)

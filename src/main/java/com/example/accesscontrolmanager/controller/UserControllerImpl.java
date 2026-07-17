@@ -1,8 +1,10 @@
 package com.example.accesscontrolmanager.controller;
 
 import com.example.accesscontrolmanager.controller.request.CreateUserRequest;
+import com.example.accesscontrolmanager.controller.response.CapabilitiesResponse;
 import com.example.accesscontrolmanager.controller.response.CreateUserResponse;
 import com.example.accesscontrolmanager.model.UserDto;
+import com.example.accesscontrolmanager.service.RoleService;
 import com.example.accesscontrolmanager.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class UserControllerImpl implements UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Override
     public CreateUserResponse createUser(CreateUserRequest request) {
@@ -48,6 +51,14 @@ public class UserControllerImpl implements UserController {
         log.info("Successfully retrieved the current user {}",
                 systemUserId);
         return user;
+    }
+
+    @Override
+    public CapabilitiesResponse getCapabilities(UUID systemUserId) {
+        log.info("Fetching capabilities for user {}", systemUserId);
+        return CapabilitiesResponse.builder()
+                .capabilities(roleService.getCapabilities(systemUserId))
+                .build();
     }
 
 }

@@ -26,20 +26,19 @@ public class UserRoleControllerImpl implements UserRoleController {
     @Override
     public List<UserRoleDto> save(
             UUID systemUserId, UUID assignerUserId, UserRoleListRequest request) {
-        log.info("POST " + API_VERSION + API_USER_ROLE + " " + systemUserId
-        + " " + request.toString());
+        log.info("POST {}{} user={} request={}", API_VERSION, API_USER_ROLE, systemUserId, request);
         return userRoleService.save(systemUserId, assignerUserId, request.getUserRoleRequestList());
     }
 
     @Override
     public UserRoleDto get(UUID systemUserId, Long id) {
-        log.info("GET " + API_VERSION + API_USER_ROLE + " " + systemUserId + " " + id);
+        log.info("GET {}{} user={} id={}", API_VERSION, API_USER_ROLE, systemUserId, id);
         return userRoleService.getByIdAndUser(id, systemUserId);
     }
 
     @Override
     public List<UserRoleDto> getByUser(UUID systemUserId) {
-        log.info("GET " + API_VERSION + API_USER_ROLE + "/userId " + systemUserId);
+        log.info("GET {}{} user={}", API_VERSION, API_USER_ROLE, systemUserId);
         return userRoleService.getByUser(systemUserId);
     }
 }
