@@ -1,0 +1,8 @@
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/config/AccessControlSecurityProperties.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/client/dto/CapabilitiesResponse.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/converter/AccessControlAuthenticationConverter.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/authority/CapabilityGrantedAuthority.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/authorization/CapabilityAuthorizationManager.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/client/AccessControlManagerClient.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/annotation/RequiresCapability.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/security-library/src/main/java/com/example/security/config/AccessControlSecurityAutoConfiguration.java

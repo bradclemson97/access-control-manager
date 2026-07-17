@@ -76,4 +76,13 @@ public interface RoleService {
     AllRolesResponse getAllRoles(UUID systemUserId);
 
     Stream<Role> getInheritedRoles(Set<Role> roles);
+
+    /**
+     * Get the flat set of capability codes for a user by traversing the full role
+     * inheritance hierarchy and extracting roles of type {@code CAPABILITY}.
+     *
+     * @param systemUserId the user's system ID
+     * @return set of capability code strings (role names with typeCode=CAPABILITY)
+     */
+    Set<String> getCapabilities(UUID systemUserId);
 }
