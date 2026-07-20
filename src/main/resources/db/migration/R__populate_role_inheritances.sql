@@ -21,7 +21,7 @@ $$
             ARRAY[
                 'Create users',
                 'Manage permissions given to a user',
-                'Manager users account']);
+                'Manage users account']);
 
         -- Role Assignments
         PERFORM insert_role_assignment('User Administration',
