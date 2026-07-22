@@ -49,7 +49,7 @@ BEGIN
                                 WHERE role_type_code = 'CAPABILITY'
                                     AND role_name IN (SELECT unnest(child_roles)))
         LOOP
-            INSERT INTO access_control.role_inheritance (roe_id, inherits_roe_id, inheritance_type_code, created_by, created_date, modified_by, modified_date)
+            INSERT INTO access_control.role_inheritances (roe_id, inherits_roe_id, inheritance_type_code, created_by, created_date, modified_by, modified_date)
             VALUES (permission_role_id, capability_role_id, 'INHERIT', '${data-creator-system-user-id}', now(), '${data-creator-system-user-id}', now());
         END LOOP;
 END;

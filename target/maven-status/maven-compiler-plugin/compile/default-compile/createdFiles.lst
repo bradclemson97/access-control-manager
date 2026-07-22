@@ -50,6 +50,7 @@ com/example/accesscontrolmanager/controller/request/UserRoleRequest.class
 com/example/accesscontrolmanager/model/UserSoiDto$UserSoiDtoBuilder.class
 com/example/accesscontrolmanager/model/UserAuditSoi$UserAuditSoiBuilder.class
 com/example/accesscontrolmanager/domain/UserRole$UserRoleBuilder.class
+com/example/accesscontrolmanager/config/SecurityConfig.class
 com/example/accesscontrolmanager/controller/RoleControllerImpl.class
 com/example/accesscontrolmanager/domain/RoleInheritance$RoleInheritanceBuilderImpl.class
 com/example/accesscontrolmanager/exception/response/ApiError.class

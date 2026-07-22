@@ -6,15 +6,12 @@ import com.example.accesscontrolmanager.model.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.time.OffsetDateTime;
-
 import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @Mapper(componentModel = "spring",
-nullValuePropertyMappingStrategy = IGNORE,
+        nullValuePropertyMappingStrategy = IGNORE,
         nullValueIterableMappingStrategy = RETURN_DEFAULT,
-        imports = {OffsetDateTime.class},
         uses = {RoleMapper.class})
 public interface UserMapper {
 

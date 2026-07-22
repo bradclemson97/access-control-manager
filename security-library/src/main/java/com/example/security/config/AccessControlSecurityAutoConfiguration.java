@@ -16,12 +16,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.reflect.Method;
 
@@ -55,7 +58,21 @@ public class AccessControlSecurityAutoConfiguration {
     public AccessControlManagerClient accessControlManagerClient(
             RestClient.Builder builder,
             AccessControlSecurityProperties properties) {
-        RestClient restClient = builder.baseUrl(properties.getManagerUrl()).build();
+        RestClient restClient = builder
+                .baseUrl(properties.getManagerUrl())
+                .requestInterceptor((request, body, execution) -> {
+                    try {
+                        var attrs = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                        String authHeader = attrs.getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+                        if (authHeader != null) {
+                            request.getHeaders().set(HttpHeaders.AUTHORIZATION, authHeader);
+                        }
+                    } catch (IllegalStateException ignored) {
+                        // No active servlet request context (e.g. background threads)
+                    }
+                    return execution.execute(request, body);
+                })
+                .build();
         log.info("Registered AccessControlManagerClient → {}", properties.getManagerUrl());
         return new AccessControlManagerClient(restClient);
     }

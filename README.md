@@ -31,15 +31,25 @@ access-control-manager/
 | `DB_HOST` | `localhost` | PostgreSQL host |
 | `DB_PORT` | `5432` | PostgreSQL port |
 | `DB_SCHEMA` | `access_control` | Database schema |
+| `KEYCLOAK_ISSUER_URI` | `http://localhost:9000/realms/system` | JWT issuer URI for Bearer token validation |
 | `SYSTEM_ADMIN_SYSTEMUSER-ID` | `9a908a6d-...` | UUID of the bootstrap admin user |
 | `system.user-id` | `00000000-...` | Fallback UUID for JPA audit fields |
 | `ENVIRONMENT` | `local` | Active environment label |
 
 ### Running
 
-```bash
-mvn spring-boot:run
-```
+* **Build the project**:
+    ```bash
+    ./mvnw clean package
+    ```
+* **Run locally**:
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+* **Stop running**:
+    ```bash
+    lsof -ti :8130 | xargs kill -9
+    ```
 
 API: `http://localhost:8130` — Swagger UI: `http://localhost:8130/swagger-ui.html`
 
@@ -130,12 +140,18 @@ Validation errors include per-field detail:
 }
 ```
 
+### Security
+
+All endpoints except `/actuator/health`, `/v3/api-docs/**`, and `/swagger-ui/**` require a valid Bearer JWT. The token must be issued by the configured Keycloak realm (set via `KEYCLOAK_ISSUER_URI`).
+
+Consuming services that use the `security-library` must set `system-user-id-claim: systemUserId` — this matches the protocol mapper on the `user-management-ui` Keycloak client that places the user's ACM UUID into that claim. Using `sub` will not work because `sub` holds Keycloak's internal UUID, not the ACM system user ID.
+
 ### Architecture Notes
 
 - **Controller layer** — interfaces carry Swagger annotations and validation; `*Impl` classes hold the `@RestController` and delegate to services.
 - **Service layer** — `@Transactional` boundaries live here; repositories are not called directly from controllers.
 - **Mapper layer** — MapStruct mappers convert between JPA entities and DTOs/responses.
-- **JPA Auditing** — All entities extend `JpaAuditEntity`, which captures `createdBy`, `createdDate`, `modifiedBy`, and `modifiedDate` automatically via Spring Data's `AuditingEntityListener`.
+- **JPA Auditing** — All entities extend `JpaAuditEntity`, which captures `createdBy`, `createdDate`, `modifiedBy`, and `modifiedDate` automatically via Spring Data's `AuditingEntityListener`. Date fields use `Instant` rather than `OffsetDateTime` because Spring Data JPA's auditing handler does not support `OffsetDateTime`.
 
 ---
 
@@ -182,7 +198,7 @@ spring:
 access-control:
   security:
     manager-url: http://access-control-manager:8130  # required
-    system-user-id-claim: sub                        # JWT claim holding the systemUserId UUID
+    system-user-id-claim: systemUserId                # JWT claim holding the systemUserId UUID
     fail-on-error: false                             # set true to reject auth if ACM is unreachable
 ```
 

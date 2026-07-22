@@ -35,9 +35,11 @@ public class JpaAuditingConfig {
                     || "anonymousUser".equals(auth.getPrincipal())) {
                 return Optional.of(fallbackSystemUserId);
             }
-            // TODO: extract systemUserId from the session claims principal
-            // once the session claims library is integrated (see UserRoleController TODO)
-            return Optional.of(fallbackSystemUserId);
+            try {
+                return Optional.of(UUID.fromString(auth.getName()));
+            } catch (IllegalArgumentException e) {
+                return Optional.of(fallbackSystemUserId);
+            }
         };
     }
 }
