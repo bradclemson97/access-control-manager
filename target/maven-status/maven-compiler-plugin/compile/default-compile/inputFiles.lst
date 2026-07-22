@@ -1,5 +1,6 @@
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/UserRoleControllerImpl.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/domain/RoleInheritance.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/config/SecurityConfig.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/response/AllRolesResponse.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/config/SystemConstant.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/request/CreateUserRequest.java

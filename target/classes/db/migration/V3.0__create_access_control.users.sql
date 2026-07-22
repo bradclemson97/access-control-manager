@@ -17,7 +17,7 @@ CREATE TABLE access_control.users_history (LIKE access_control.users, hist_id BI
 
 CREATE TRIGGER versioning_trigger_users
   BEFORE INSERT OR UPDATE OR DELETE ON access_control.users
-  FOR EACH ROW EXECUTE PROCEDURE versioning(‘sys_period’, ‘access_control.users_history’, true);
+  FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'access_control.users_history', true);
 
 /* Create Primary Keys, Indexes, Uniques, Checks */
 

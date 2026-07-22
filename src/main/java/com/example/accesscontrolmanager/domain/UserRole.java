@@ -8,7 +8,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DialectOverride;
 import org.hibernate.dialect.H2Dialect;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static lombok.AccessLevel.PROTECTED;

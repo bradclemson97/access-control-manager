@@ -15,7 +15,7 @@ CREATE TABLE access_control.user_roles_history (LIKE access_control.user_roles, 
 
 CREATE TRIGGER versioning_trigger_user_roles
   BEFORE INSERT OR UPDATE OR DELETE ON access_control.user_roles
-  FOR EACH ROW EXECUTE PROCEDURE versioning(‘sys_period’, ‘access_control.user_roles_history’, true);
+  FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'access_control.user_roles_history', true);
 
 /* Create Primary Keys, Indexes, Uniques, Checks */
 
