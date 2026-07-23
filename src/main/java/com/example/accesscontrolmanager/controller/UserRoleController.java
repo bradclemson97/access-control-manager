@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,11 +46,7 @@ public interface UserRoleController {
             @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a", required = true,
                     description = "The user's unique reference")
             @PathVariable UUID systemUserId,
-            // TO DO: create session claims library class and use that to retrieve systemUserId
-            // @AuthenticationPrincipal SessionClaims claims, for now we will pass in as a parameter
-            @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a",
-                    description = "The user's unique reference")
-            @PathVariable UUID assignerUserId,
+            @AuthenticationPrincipal Jwt jwt,
             @RequestBody @Valid UserRoleListRequest request);
 
     @Operation(summary = "Get a user role",
