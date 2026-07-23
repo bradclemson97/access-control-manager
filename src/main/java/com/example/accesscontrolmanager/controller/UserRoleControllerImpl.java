@@ -5,6 +5,7 @@ import com.example.accesscontrolmanager.model.UserRoleDto;
 import com.example.accesscontrolmanager.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,8 +26,9 @@ public class UserRoleControllerImpl implements UserRoleController {
 
     @Override
     public List<UserRoleDto> save(
-            UUID systemUserId, UUID assignerUserId, UserRoleListRequest request) {
-        log.info("POST {}{} user={} request={}", API_VERSION, API_USER_ROLE, systemUserId, request);
+            UUID systemUserId, Jwt jwt, UserRoleListRequest request) {
+        UUID assignerUserId = UUID.fromString(jwt.getClaimAsString("systemUserId"));
+        log.info("POST {}{} user={} assigner={} request={}", API_VERSION, API_USER_ROLE, systemUserId, assignerUserId, request);
         return userRoleService.save(systemUserId, assignerUserId, request.getUserRoleRequestList());
     }
 
