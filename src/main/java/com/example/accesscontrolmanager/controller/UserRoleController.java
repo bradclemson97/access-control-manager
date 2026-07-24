@@ -3,6 +3,7 @@ package com.example.accesscontrolmanager.controller;
 import com.example.accesscontrolmanager.controller.request.UserRoleListRequest;
 import com.example.accesscontrolmanager.exception.response.ApiError;
 import com.example.accesscontrolmanager.model.UserRoleDto;
+import com.example.security.annotation.RequiresCapability;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,6 +43,7 @@ public interface UserRoleController {
     @Operation(summary = "save user roles",
     description = "Save user roles with the provided userRoleListRequest and returns a List of userRoleDto.")
     @PostMapping
+    @RequiresCapability("Manage permissions given to a user")
     List<UserRoleDto> save(
             @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a", required = true,
                     description = "The user's unique reference")
@@ -53,6 +55,7 @@ public interface UserRoleController {
     description = "Get a user role with the provided user id and user to role id and returns "
     + "a UserRoleDto.")
     @GetMapping("{id}")
+    @RequiresCapability("Search and View users")
     UserRoleDto get(
             @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a", required = true,
                     description = "The user's unique reference")
@@ -63,6 +66,7 @@ public interface UserRoleController {
             description = "Get a list of user role with the provided user id and user to role id and returns "
             + "a List of UserRoleDto.")
     @GetMapping
+    @RequiresCapability("Search and View users")
     List<UserRoleDto> getByUser(
             @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a", required = true,
                     description = "The user's unique reference")

@@ -4,6 +4,7 @@ import com.example.accesscontrolmanager.controller.response.AllRolesResponse;
 import com.example.accesscontrolmanager.controller.response.RoleResponse;
 import com.example.accesscontrolmanager.domain.enums.RoleTypeCode;
 import com.example.accesscontrolmanager.exception.response.ApiError;
+import com.example.security.annotation.RequiresCapability;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,6 +44,7 @@ public interface RoleController {
             description = "Get all roles. Optionally filter by name (partial match) or typeCode. "
                     + "If both are provided, name takes precedence.")
     @GetMapping
+    @RequiresCapability("Search and View users")
     List<RoleResponse> findAll(
             @Parameter(description = "Partial role name to search for")
             @RequestParam(required = false) String name,
@@ -52,6 +54,7 @@ public interface RoleController {
     @Operation(summary = "Get role by ID", description = "Get a single role by its ID")
     @GetMapping("{id}")
     @ApiResponse(responseCode = "200", description = "Role found")
+    @RequiresCapability("Search and View users")
     RoleResponse findById(
             @Parameter(description = "The role's ID", example = "1")
             @PathVariable Long id);
@@ -59,6 +62,7 @@ public interface RoleController {
     @Operation(summary = "Get capability roles",
             description = "Get the capability roles that a system role inherits")
     @GetMapping("{id}/capabilities")
+    @RequiresCapability("Search and View users")
     List<RoleResponse> findCapabilities(
             @Parameter(description = "The system role's ID", example = "1")
             @PathVariable Long id);
@@ -66,6 +70,7 @@ public interface RoleController {
     @Operation(summary = "Get user's direct roles",
             description = "Get the roles directly assigned to a user")
     @GetMapping("user/{systemUserId}")
+    @RequiresCapability("Search and View users")
     List<RoleResponse> getUserRoles(
             @Parameter(description = "The user's system ID",
                     example = "5dad5a08-73a2-5eds-2sdh-99fab505402a")
@@ -75,6 +80,7 @@ public interface RoleController {
             description = "Get all roles and role assignments for a user, including roles "
                     + "inherited via the role hierarchy")
     @GetMapping("user/{systemUserId}/all")
+    @RequiresCapability("Search and View users")
     AllRolesResponse getAllUserRoles(
             @Parameter(description = "The user's system ID",
                     example = "5dad5a08-73a2-5eds-2sdh-99fab505402a")

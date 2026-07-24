@@ -48,6 +48,12 @@ cache:
   expiry-units: ${CACHE_EXPIRY_UNITS:MINUTES}
   max: ${CACHE_MAX_SIZE:1000}
 
+access-control:
+  security:
+    manager-url: ${ACM_URL:http://localhost:8130}
+    system-user-id-claim: systemUserId
+    fail-on-error: false
+
 clients:
   clients:
     user-manager:

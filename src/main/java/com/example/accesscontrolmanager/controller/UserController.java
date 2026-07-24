@@ -5,6 +5,7 @@ import com.example.accesscontrolmanager.controller.response.CapabilitiesResponse
 import com.example.accesscontrolmanager.controller.response.CreateUserResponse;
 import com.example.accesscontrolmanager.exception.response.ApiError;
 import com.example.accesscontrolmanager.model.UserDto;
+import com.example.security.annotation.RequiresCapability;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -45,11 +46,13 @@ public interface UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponse(responseCode = "201", description = "User creation successful")
+    @RequiresCapability("Create users")
     CreateUserResponse createUser(
             @RequestBody @Valid CreateUserRequest userRequest);
 
     @Operation(summary = "Get user", description = "Get user information for the provided systemUserId")
     @GetMapping("{systemUserId}")
+    @RequiresCapability("Search and View users")
     UserDto getUser(
             @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a",
             description = "The user's unique reference")
