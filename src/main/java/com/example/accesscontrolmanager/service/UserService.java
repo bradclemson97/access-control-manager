@@ -36,4 +36,19 @@ public interface UserService {
      */
     UserDto getUserInfo(UUID systemUserId);
 
+    /**
+     * Lock a user account.
+     *
+     * @param systemUserId the systemUserId of the user to lock
+     * @param failedAttempts the failed attempt count to record
+     */
+    void lockUser(UUID systemUserId, int failedAttempts);
+
+    /**
+     * Unlock a user account and clear their failed login attempt counter.
+     *
+     * @param systemUserId the systemUserId of the user to unlock
+     */
+    void unlockUser(UUID systemUserId);
+
 }

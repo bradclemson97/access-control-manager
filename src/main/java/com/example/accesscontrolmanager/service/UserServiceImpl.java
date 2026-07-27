@@ -3,6 +3,7 @@ package com.example.accesscontrolmanager.service;
 import com.example.accesscontrolmanager.controller.request.CreateUserRequest;
 import com.example.accesscontrolmanager.controller.response.CreateUserResponse;
 import com.example.accesscontrolmanager.domain.User;
+import com.example.accesscontrolmanager.domain.enums.YesNo;
 import com.example.accesscontrolmanager.exception.ConflictException;
 import com.example.accesscontrolmanager.mapper.UserMapper;
 import com.example.accesscontrolmanager.model.UserDto;
@@ -64,6 +65,26 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserInfo(UUID systemUserId) {
         User user = getUser(systemUserId);
         return userMapper.userToDto(user);
+    }
+
+    @Override
+    @Transactional
+    public void lockUser(UUID systemUserId, int failedAttempts) {
+        User user = getUser(systemUserId);
+        user.setLocked(YesNo.YES);
+        user.setFailedLoginAttempts(failedAttempts);
+        userRepository.save(user);
+        log.info("Locked ACM user {}", systemUserId);
+    }
+
+    @Override
+    @Transactional
+    public void unlockUser(UUID systemUserId) {
+        User user = getUser(systemUserId);
+        user.setLocked(YesNo.NO);
+        user.setFailedLoginAttempts(0);
+        userRepository.save(user);
+        log.info("Unlocked ACM user {}", systemUserId);
     }
 
 }

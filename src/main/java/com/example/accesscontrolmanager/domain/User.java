@@ -46,6 +46,10 @@ public class User extends JpaAuditEntity {
     @Builder.Default
     private YesNo locked = NA;
 
+    @Column(name = "failed_login_attempts", nullable = false)
+    @Builder.Default
+    private int failedLoginAttempts = 0;
+
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

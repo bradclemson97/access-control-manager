@@ -56,9 +56,28 @@ public class UserControllerImpl implements UserController {
     @Override
     public CapabilitiesResponse getCapabilities(UUID systemUserId) {
         log.info("Fetching capabilities for user {}", systemUserId);
+        com.example.accesscontrolmanager.domain.User user = userService.getUser(systemUserId);
+        if (com.example.accesscontrolmanager.domain.enums.YesNo.YES.equals(user.getLocked())) {
+            log.info("User {} is locked — returning empty capabilities", systemUserId);
+            return CapabilitiesResponse.builder().capabilities(java.util.Set.of()).build();
+        }
         return CapabilitiesResponse.builder()
                 .capabilities(roleService.getCapabilities(systemUserId))
                 .build();
+    }
+
+    @Override
+    public void lockUser(UUID systemUserId) {
+        log.info("Attempting to lock ACM user {}", systemUserId);
+        userService.lockUser(systemUserId, 0);
+        log.info("Successfully locked ACM user {}", systemUserId);
+    }
+
+    @Override
+    public void unlockUser(UUID systemUserId) {
+        log.info("Attempting to unlock ACM user {}", systemUserId);
+        userService.unlockUser(systemUserId);
+        log.info("Successfully unlocked ACM user {}", systemUserId);
     }
 
 }
