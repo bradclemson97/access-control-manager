@@ -66,6 +66,26 @@ public interface UserController {
             @AuthenticationPrincipal(expression = "systemUserId")
             UUID systemUserId);
 
+    @RequiresCapability("Manage users account")
+    @Operation(summary = "Lock user account", description = "Sets the user's locked status to YES")
+    @PutMapping("{systemUserId}" + API_LOCK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponse(responseCode = "204", description = "User locked successfully")
+    void lockUser(
+            @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a",
+                    description = "The user's unique reference")
+            @PathVariable UUID systemUserId);
+
+    @RequiresCapability("Manage users account")
+    @Operation(summary = "Unlock user account", description = "Clears the user's lock flag and failed attempt counter")
+    @DeleteMapping("{systemUserId}" + API_LOCK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponse(responseCode = "204", description = "User unlocked successfully")
+    void unlockUser(
+            @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a",
+                    description = "The user's unique reference")
+            @PathVariable UUID systemUserId);
+
     @Operation(summary = "Get user capabilities",
             description = "Returns the flat set of capability codes held by the user, "
                     + "resolved by traversing the full role inheritance hierarchy. "

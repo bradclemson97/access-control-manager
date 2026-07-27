@@ -14,4 +14,5 @@ public class SystemConstant {
     public static final String API_CURRENT = "/current";
     public static final String API_USER_ROLE = "/userRoles/{systemUserId}/roles";
     public static final String API_ROLE = "/roles";
+    public static final String API_LOCK = "/lock";
 }
