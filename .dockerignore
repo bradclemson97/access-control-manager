@@ -1,0 +1,4 @@
+target/
+security-library/target/
+.git/
+*.md
