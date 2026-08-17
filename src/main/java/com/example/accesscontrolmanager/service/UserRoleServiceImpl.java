@@ -1,10 +1,12 @@
 package com.example.accesscontrolmanager.service;
 
+import com.example.accesscontrolmanager.client.KmClient;
 import com.example.accesscontrolmanager.controller.request.UserRoleRequest;
 import com.example.accesscontrolmanager.domain.Role;
 import com.example.accesscontrolmanager.domain.RoleInheritance;
 import com.example.accesscontrolmanager.domain.User;
 import com.example.accesscontrolmanager.domain.UserRole;
+import com.example.accesscontrolmanager.domain.enums.RoleTypeCode;
 import com.example.accesscontrolmanager.exception.RoleAssignmentNotAllowedException;
 import com.example.accesscontrolmanager.mapper.UserRoleMapper;
 import com.example.accesscontrolmanager.model.UserRoleDto;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +31,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleRepository userRoleRepository;
     private final UserRoleMapper userRoleMapper;
     private final UserService userService;
+    private final RoleService roleService;
+    private final KmClient kmClient;
 
     @Override
     @Transactional
@@ -73,6 +78,8 @@ public class UserRoleServiceImpl implements UserRoleService {
 
         userRoles.removeAll(toRemove);
         userRoles.addAll(newUserRoles);
+
+        syncPermissionsToKm(systemUserId, userRoles);
 
         return userRoles.stream()
                 .map(userRoleMapper::map)
@@ -136,6 +143,30 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .flatMap(Collection::stream)
                 .map(RoleInheritance::getChildRole)
                 .collect(Collectors.toSet());
+    }
+
+    private void syncPermissionsToKm(UUID systemUserId, Set<UserRole> currentUserRoles) {
+        try {
+            Set<Role> directRoles = currentUserRoles.stream()
+                    .map(UserRole::getRole)
+                    .collect(Collectors.toSet());
+
+            List<String> capabilities = roleService.getInheritedRoles(directRoles)
+                    .filter(r -> RoleTypeCode.CAPABILITY == r.getRoleTypeCode())
+                    .map(Role::getRoleName)
+                    .distinct()
+                    .toList();
+
+            List<String> systemRoles = directRoles.stream()
+                    .filter(r -> RoleTypeCode.PERMISSION == r.getRoleTypeCode())
+                    .map(Role::getRoleName)
+                    .toList();
+
+            kmClient.syncUserPermissions(systemUserId, capabilities, systemRoles);
+        } catch (Exception e) {
+            log.warn("Failed to sync permissions to KM for user {} — role save succeeded, JWT claims may be stale: {}",
+                    systemUserId, e.getMessage());
+        }
     }
 
     private boolean anyRolesNotAssignable(Set<Role> assignableRoles, Set<UserRole> requests) {

@@ -58,3 +58,6 @@ clients:
   clients:
     user-manager:
       base-url: ${USER_MANAGER_URL:http://localhost:8080}
+
+keycloak-manager:
+  url: ${KM_URL:http://localhost:8210}

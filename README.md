@@ -32,6 +32,7 @@ access-control-manager/
 | `DB_PORT` | `5432` | PostgreSQL port |
 | `DB_SCHEMA` | `access_control` | Database schema |
 | `KEYCLOAK_ISSUER_URI` | `http://localhost:9000/realms/system` | JWT issuer URI for Bearer token validation |
+| `KM_URL` | `http://localhost:8210` | Keycloak Manager URL — ACM calls this to sync permissions into Keycloak user attributes after a role change |
 | `SYSTEM_ADMIN_SYSTEMUSER-ID` | `9a908a6d-...` | UUID of the bootstrap admin user |
 | `system.user-id` | `00000000-...` | Fallback UUID for JPA audit fields |
 | `ENVIRONMENT` | `local` | Active environment label |
@@ -72,7 +73,7 @@ All endpoints are versioned under `/v1`.
 | `GET` | `/v1/user/current` | Get the authenticated user (via session token) |
 | `GET` | `/v1/user/{systemUserId}/capabilities` | Get the flat set of capability codes for a user |
 
-The capabilities endpoint traverses the full role inheritance hierarchy and returns only `CAPABILITY`-type role names. It is called by the `security-library` on every authenticated request to populate the Spring `SecurityContext`.
+The capabilities endpoint traverses the full role inheritance hierarchy and returns only `CAPABILITY`-type role names. It acts as a fallback for the `security-library` when a `capabilities` claim is absent from the JWT (see [Security Library — How It Works](#how-it-works)).
 
 #### User Roles — `/v1/userRoles/{systemUserId}/roles`
 
@@ -161,17 +162,48 @@ A zero-boilerplate Spring Boot auto-configuration starter that enforces RBAC in 
 
 ### How It Works
 
+Permissions are embedded directly in the Keycloak-issued JWT so that services can enforce RBAC without a synchronous call to ACM on every request.
+
+#### Permission flow
+
 ```
-Incoming request with JWT
-  → Spring Security validates the JWT (signature, expiry)
-  → AccessControlAuthenticationConverter
-      - Extracts systemUserId from the configured JWT claim
-      - Calls GET /v1/user/{systemUserId}/capabilities on ACM
-      - Populates the SecurityContext with one GrantedAuthority per capability code
-  → @RequiresCapability("CREATE_USERS") on a method or class
-      → CapabilityAuthorizationManager checks the SecurityContext authorities
-      → Throws AccessDeniedException (HTTP 403) if the capability is absent
+Role change (UI → POST /v1/userRoles/{id}/roles on ACM)
+  └─ UserRoleServiceImpl saves roles, then calls KmClient
+       └─ PUT /v1/user/{systemUserId}/permissions on Keycloak Manager
+            └─ AdminServiceImpl writes two Keycloak user attributes:
+                 capabilities  = ["Create users", "Search and View users", ...]
+                 systemRoles   = ["User Administration"]
+
+Next token issuance or refresh:
+  └─ Keycloak protocol mappers embed both attributes as signed JWT claims
+
+Incoming request with JWT:
+  └─ Spring Security validates the JWT (signature, expiry)
+  └─ AccessControlAuthenticationConverter
+        1. Reads jwt.getClaimAsList("capabilities")
+        2. If present → populates SecurityContext directly from the claim (no HTTP call)
+        3. If absent  → falls back to GET /v1/user/{systemUserId}/capabilities on ACM
+  └─ @RequiresCapability("Create users") on a method or class
+        → CapabilityAuthorizationManager checks SecurityContext authorities
+        → Throws AccessDeniedException (HTTP 403) if the capability is absent
 ```
+
+#### Staleness window
+
+Capabilities are embedded at token issuance time. A role change takes effect within one Keycloak access-token TTL (default ~5 minutes) — the next token issued after a role change will carry the updated claims.
+
+The ACM fallback path (step 3 above) handles tokens issued before the protocol mappers were in place and tokens from environments where KM sync has not yet run.
+
+#### Keycloak protocol mappers
+
+Keycloak Manager's `RealmSetupService` creates two `oidc-usermodel-attribute-mapper` mappers at startup (idempotent — skipped if they already exist):
+
+| Mapper name | User attribute | Claim in access token | Multivalued |
+|---|---|---|---|
+| `capabilities` | `capabilities` | `capabilities` | yes |
+| `systemRoles` | `systemRoles` | `systemRoles` | yes |
+
+Both mappers are added to the `roles` client scope (falling back to `profile` if `roles` is absent), so they apply to all clients in the realm without per-client configuration.
 
 ### Usage
 

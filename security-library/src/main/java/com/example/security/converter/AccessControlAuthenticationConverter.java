@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -45,19 +46,28 @@ public class AccessControlAuthenticationConverter implements Converter<Jwt, JwtA
     public JwtAuthenticationToken convert(Jwt jwt) {
         UUID systemUserId = extractSystemUserId(jwt);
 
+        List<String> jwtCaps = jwt.getClaimAsList("capabilities");
+
         Collection<CapabilityGrantedAuthority> authorities;
-        try {
-            authorities = client.getCapabilities(systemUserId).stream()
+        if (jwtCaps != null && !jwtCaps.isEmpty()) {
+            log.debug("Loading {} capabilities from JWT claim for user {}", jwtCaps.size(), systemUserId);
+            authorities = jwtCaps.stream()
                     .map(CapabilityGrantedAuthority::new)
                     .toList();
-        } catch (Exception ex) {
-            log.error("Failed to fetch capabilities from ACM for user {}: {}", systemUserId, ex.getMessage());
-            if (failOnError) {
-                throw new AuthenticationServiceException(
-                        "Could not load user capabilities from Access Control Manager", ex);
+        } else {
+            try {
+                authorities = client.getCapabilities(systemUserId).stream()
+                        .map(CapabilityGrantedAuthority::new)
+                        .toList();
+            } catch (Exception ex) {
+                log.error("Failed to fetch capabilities from ACM for user {}: {}", systemUserId, ex.getMessage());
+                if (failOnError) {
+                    throw new AuthenticationServiceException(
+                            "Could not load user capabilities from Access Control Manager", ex);
+                }
+                log.warn("Continuing with empty capability set for user {} (fail-on-error=false)", systemUserId);
+                authorities = Collections.emptyList();
             }
-            log.warn("Continuing with empty capability set for user {} (fail-on-error=false)", systemUserId);
-            authorities = Collections.emptyList();
         }
 
         return new JwtAuthenticationToken(jwt, authorities, systemUserId.toString());
