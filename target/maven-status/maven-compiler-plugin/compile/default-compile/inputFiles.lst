@@ -9,8 +9,10 @@
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/domain/UserRole.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/response/CreateUserResponse.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/mapper/RoleMapper.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/client/KmClient.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/AccessControlApplication.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/response/FunctionalRoleResponse.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/client/KmClientConfig.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/mapper/RolePrivilegeMapperImpl.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/model/UserRoleDto.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/response/RoleInheritanceResponse.java
