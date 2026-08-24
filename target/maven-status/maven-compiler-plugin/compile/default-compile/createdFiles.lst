@@ -43,6 +43,7 @@ com/example/accesscontrolmanager/repository/RoleRepository.class
 com/example/accesscontrolmanager/controller/response/RoleInheritanceResponse.class
 com/example/accesscontrolmanager/controller/request/CreateUserRequest$CreateUserRequestBuilder.class
 com/example/accesscontrolmanager/model/UserDto.class
+com/example/accesscontrolmanager/client/KmClient$SyncPermissionsRequest.class
 com/example/accesscontrolmanager/domain/RolePrivilege.class
 com/example/accesscontrolmanager/model/UserAuditSoi.class
 com/example/accesscontrolmanager/mapper/UserRoleMapper.class
@@ -62,6 +63,7 @@ com/example/accesscontrolmanager/domain/User$UserBuilder.class
 com/example/accesscontrolmanager/model/UserRoleDto.class
 com/example/accesscontrolmanager/mapper/RolePrivilegeMapper.class
 com/example/accesscontrolmanager/repository/RoleInheritanceRepository.class
+com/example/accesscontrolmanager/client/KmClientConfig.class
 com/example/accesscontrolmanager/domain/Role$RoleBuilderImpl.class
 com/example/accesscontrolmanager/controller/response/RoleResponse.class
 com/example/accesscontrolmanager/controller/UserRoleControllerImpl.class
@@ -79,6 +81,7 @@ com/example/accesscontrolmanager/mapper/UserMapperImpl.class
 com/example/accesscontrolmanager/controller/response/CapabilitiesResponse.class
 com/example/accesscontrolmanager/AccessControlApplication.class
 com/example/accesscontrolmanager/controller/UserController.class
+com/example/accesscontrolmanager/client/KmClient.class
 com/example/accesscontrolmanager/service/UserServiceImpl.class
 com/example/accesscontrolmanager/controller/response/RolePrivilegeResponse$RolePrivilegeResponseBuilder.class
 com/example/accesscontrolmanager/exception/RoleAssignmentNotAllowedException.class
