@@ -1,2 +1,4 @@
 com/example/accesscontrolmanager/mapper/RoleMapperTest.class
+com/example/accesscontrolmanager/service/UserServiceImplTest.class
+com/example/accesscontrolmanager/service/UserRoleServiceImplTest.class
 com/example/accesscontrolmanager/service/RoleServiceTest.class
