@@ -1,0 +1,3 @@
+com/example/security/converter/AccessControlAuthenticationConverterTest.class
+com/example/security/authorization/CapabilityAuthorizationManagerTest.class
+com/example/security/authorization/CapabilityAuthorizationManagerTest$TestController.class
