@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.057" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.083" tests="9" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -54,13 +54,28 @@
     <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="findByRoleTypeCode" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.039"/>
-  <testcase name="findAllActive" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.001"/>
-  <testcase name="findById_notFound" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.001"/>
-  <testcase name="getAllRoles" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.011"/>
-  <testcase name="findByName" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.001"/>
-  <testcase name="findById_success" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.001"/>
-  <testcase name="findCapabilityRolesBySystemRoleId" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.001"/>
-  <testcase name="getInheritedRoles" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.001"/>
-  <testcase name="getRoles" classname="com.example.accesscontrolmanager.service.RoleServiceTest" time="0.0"/>
+  <testcase name="lockUser_notFound" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.049">
+    <system-out><![CDATA[16:02:45.583 [main] INFO com.example.accesscontrolmanager.service.UserServiceImpl -- User not found for systemUserId 19adb933-e327-41e4-86ff-1633395cbd2a
+]]></system-out>
+  </testcase>
+  <testcase name="unlockUser_success" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.003">
+    <system-out><![CDATA[16:02:45.585 [main] INFO com.example.accesscontrolmanager.service.UserServiceImpl -- Unlocked ACM user 16ccdf47-5ccf-4e3b-afdb-0131dfd1497a
+]]></system-out>
+  </testcase>
+  <testcase name="unlockUser_notFound" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.001">
+    <system-out><![CDATA[16:02:45.588 [main] INFO com.example.accesscontrolmanager.service.UserServiceImpl -- User not found for systemUserId 8896567e-b2da-43a0-8fd3-1689e923d189
+]]></system-out>
+  </testcase>
+  <testcase name="getUser_notFound" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.001">
+    <system-out><![CDATA[16:02:45.590 [main] INFO com.example.accesscontrolmanager.service.UserServiceImpl -- User not found for systemUserId 178eeb02-a7d1-4c18-b068-4c6712d181ab
+]]></system-out>
+  </testcase>
+  <testcase name="lockUser_success" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.001">
+    <system-out><![CDATA[16:02:45.591 [main] INFO com.example.accesscontrolmanager.service.UserServiceImpl -- Locked ACM user 76b66f70-d09d-4d8a-b770-06457d224564
+]]></system-out>
+  </testcase>
+  <testcase name="createUser_conflict" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.008"/>
+  <testcase name="getUser_success" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.001"/>
+  <testcase name="getUserInfo_success" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.008"/>
+  <testcase name="createUser_success" classname="com.example.accesscontrolmanager.service.UserServiceImplTest" time="0.01"/>
 </testsuite>

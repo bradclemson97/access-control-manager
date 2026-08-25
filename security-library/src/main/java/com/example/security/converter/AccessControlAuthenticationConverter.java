@@ -46,7 +46,7 @@ public class AccessControlAuthenticationConverter implements Converter<Jwt, JwtA
     public JwtAuthenticationToken convert(Jwt jwt) {
         UUID systemUserId = extractSystemUserId(jwt);
 
-        List<String> jwtCaps = jwt.getClaimAsList("capabilities");
+        List<String> jwtCaps = jwt.getClaimAsStringList("capabilities");
 
         Collection<CapabilityGrantedAuthority> authorities;
         if (jwtCaps != null && !jwtCaps.isEmpty()) {
