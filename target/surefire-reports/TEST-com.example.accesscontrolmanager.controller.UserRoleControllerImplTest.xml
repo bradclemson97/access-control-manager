@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.108" tests="10" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.accesscontrolmanager.controller.UserRoleControllerImplTest" time="0.962" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -61,14 +61,36 @@
     <property name="java.class.version" value="61.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[access-control-manager] "/>
   </properties>
-  <testcase name="getHistory_returnsEmptyList" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.091"/>
-  <testcase name="get_success" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.002"/>
-  <testcase name="getByIdAndUser_notFound" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.002"/>
-  <testcase name="get_notFound" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.002"/>
-  <testcase name="getHistory_returnsAuditRecords" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.002"/>
-  <testcase name="save_success" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.003"/>
-  <testcase name="getByUser_success" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.001"/>
-  <testcase name="getByIdAndUser_success" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.001"/>
-  <testcase name="save_throwsWhenRemovingNonAssignableRole" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.002"/>
-  <testcase name="save_throwsWhenNewRoleNotAssignable" classname="com.example.accesscontrolmanager.service.UserRoleServiceImplTest" time="0.001"/>
+  <testcase name="getHistory_empty" classname="com.example.accesscontrolmanager.controller.UserRoleControllerImplTest" time="0.055">
+    <system-out><![CDATA[15:11:50.001 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.accesscontrolmanager.controller.UserRoleControllerImplTest]: UserRoleControllerImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:11:50.082 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.accesscontrolmanager.AccessControlApplication for test class com.example.accesscontrolmanager.controller.UserRoleControllerImplTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2026-08-26 15:11:50.239 [background-preinit] INFO  o.h.validator.internal.util.Version [cid=n/a uid=n/a] - HV000001: Hibernate Validator 8.0.1.Final
+2026-08-26 15:11:50.252 [main] INFO  c.e.a.c.UserRoleControllerImplTest [cid=n/a uid=n/a] - Starting UserRoleControllerImplTest using Java 17.0.20.1 with PID 42631 (started by bradley.clemson in /Users/bradley.clemson/IdeaProjects/access-control-manager)
+2026-08-26 15:11:50.252 [main] DEBUG c.e.a.c.UserRoleControllerImplTest [cid=n/a uid=n/a] - Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-08-26 15:11:50.252 [main] INFO  c.e.a.c.UserRoleControllerImplTest [cid=n/a uid=n/a] - No active profile set, falling back to 1 default profile: "default"
+2026-08-26 15:11:50.810 [main] INFO  o.s.s.web.DefaultSecurityFilterChain [cid=n/a uid=n/a] - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@33bf2602, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4724b2c1, org.springframework.security.web.context.SecurityContextHolderFilter@32430075, org.springframework.security.web.header.HeaderWriterFilter@40fd1a78, org.springframework.web.filter.CorsFilter@426a4301, org.springframework.security.web.csrf.CsrfFilter@638341b0, org.springframework.security.web.authentication.logout.LogoutFilter@475eb4fd, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@59db8216, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@44580de0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7b4c793b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@193f3306, org.springframework.security.web.access.ExceptionTranslationFilter@33425171, org.springframework.security.web.access.intercept.AuthorizationFilter@6a262980]
+2026-08-26 15:11:50.830 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext [cid=n/a uid=n/a] - Initializing Spring TestDispatcherServlet ''
+2026-08-26 15:11:50.830 [main] INFO  o.s.t.w.s.TestDispatcherServlet [cid=n/a uid=n/a] - Initializing Servlet ''
+2026-08-26 15:11:50.831 [main] INFO  o.s.t.w.s.TestDispatcherServlet [cid=n/a uid=n/a] - Completed initialization in 1 ms
+2026-08-26 15:11:50.839 [main] INFO  c.e.a.c.UserRoleControllerImplTest [cid=n/a uid=n/a] - Started UserRoleControllerImplTest in 0.737 seconds (process running for 1.836)
+2026-08-26 15:11:50.869 [main] INFO  c.e.a.c.UserRoleControllerImpl [cid=n/a uid=n/a] - GET /v1/userRoles/{systemUserId}/roles/history user=d9b30cb9-6346-46cb-b994-87f29800a023
+]]></system-out>
+  </testcase>
+  <testcase name="getByUser_success" classname="com.example.accesscontrolmanager.controller.UserRoleControllerImplTest" time="0.011">
+    <system-out><![CDATA[2026-08-26 15:11:50.902 [main] INFO  c.e.a.c.UserRoleControllerImpl [cid=n/a uid=n/a] - GET /v1/userRoles/{systemUserId}/roles user=2654d1ca-a00e-47aa-969d-ce89ccffff05
+]]></system-out>
+  </testcase>
+  <testcase name="getHistory_success" classname="com.example.accesscontrolmanager.controller.UserRoleControllerImplTest" time="0.004">
+    <system-out><![CDATA[2026-08-26 15:11:50.911 [main] INFO  c.e.a.c.UserRoleControllerImpl [cid=n/a uid=n/a] - GET /v1/userRoles/{systemUserId}/roles/history user=eec19097-f91a-4027-9eb0-f39f9b910070
+]]></system-out>
+  </testcase>
 </testsuite>

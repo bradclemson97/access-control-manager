@@ -57,7 +57,7 @@ access-control-manager/
     lsof -ti :8130 | xargs kill -9
     ```
 
-API: `http://localhost:8130` — Swagger UI: `http://localhost:8130/swagger-ui.html`
+API: `http://localhost:8130` — Swagger UI: `http://localhost:8130/v1/docs`
 
 ### Running Tests
 
@@ -87,8 +87,9 @@ The capabilities endpoint traverses the full role inheritance hierarchy and retu
 | `POST` | `/v1/userRoles/{systemUserId}/roles` | Assign or replace roles for a user |
 | `GET` | `/v1/userRoles/{systemUserId}/roles` | List all roles for a user |
 | `GET` | `/v1/userRoles/{systemUserId}/roles/{id}` | Get a specific user-role assignment |
+| `GET` | `/v1/userRoles/{systemUserId}/roles/history` | Full audit trail of role assignments (current + historical) |
 
-Role assignment is permission-checked: the assigner must hold a role with an `ASSIGNMENT` inheritance relationship to the role they are trying to grant or revoke.
+Role assignment is permission-checked: the assigner must hold a role with an `ASSIGNMENT` inheritance relationship to the role they are trying to grant or revoke. After each successful save, ACM calls `PUT /v1/user/{systemUserId}/permissions` on KM to sync the updated capabilities and systemRoles into Keycloak user attributes (non-fatal if KM is unreachable).
 
 #### Roles — `/v1/roles`
 
@@ -148,7 +149,7 @@ Validation errors include per-field detail:
 
 ### Security
 
-All endpoints except `/actuator/health`, `/v3/api-docs/**`, and `/swagger-ui/**` require a valid Bearer JWT. The token must be issued by the configured Keycloak realm (set via `KEYCLOAK_ISSUER_URI`).
+All endpoints except `/actuator/health`, `/v1/docs`, `/v1/docs/**`, `/v1/api-docs`, `/v1/api-docs/**`, and `/swagger-ui/**` require a valid Bearer JWT. The token must be issued by the configured Keycloak realm (set via `KEYCLOAK_ISSUER_URI`).
 
 Consuming services that use the `security-library` must set `system-user-id-claim: systemUserId` — this matches the protocol mapper on the `user-management-ui` Keycloak client that places the user's ACM UUID into that claim. Using `sub` will not work because `sub` holds Keycloak's internal UUID, not the ACM system user ID.
 
@@ -243,10 +244,10 @@ The auto-configuration activates only when `access-control.security.manager-url`
 
 #### 3. Annotate methods or classes
 
-Use `@RequiresCapability` directly:
+Use `@RequiresCapability` directly, passing the capability name exactly as it appears in the `CAPABILITY`-type role records in the database (space-separated, title case):
 
 ```java
-@RequiresCapability("CREATE_USERS")
+@RequiresCapability("Create users")
 public CreateUserResponse createUser(CreateUserRequest request) { ... }
 ```
 
@@ -256,7 +257,7 @@ Or define shorthand annotations composed from it — this is the recommended pat
 // Define once in your application
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@RequiresCapability("CREATE_USERS")
+@RequiresCapability("Create users")
 public @interface CanCreateUsers {}
 
 // Use everywhere
