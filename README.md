@@ -43,6 +43,11 @@ access-control-manager/
     ```bash
     ./mvnw clean package
     ```
+* **Install security-library (if not done already)**:
+    ```bash
+    cd ./security-library
+    ../mvnw install -DskipTests -q
+    ```
 * **Run locally**:
     ```bash
     ./mvnw spring-boot:run

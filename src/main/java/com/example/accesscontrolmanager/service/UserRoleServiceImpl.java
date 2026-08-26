@@ -9,7 +9,9 @@ import com.example.accesscontrolmanager.domain.UserRole;
 import com.example.accesscontrolmanager.domain.enums.RoleTypeCode;
 import com.example.accesscontrolmanager.exception.RoleAssignmentNotAllowedException;
 import com.example.accesscontrolmanager.mapper.UserRoleMapper;
+import com.example.accesscontrolmanager.model.UserRoleAuditRecord;
 import com.example.accesscontrolmanager.model.UserRoleDto;
+import com.example.accesscontrolmanager.repository.UserRoleHistoryRepository;
 import com.example.accesscontrolmanager.repository.UserRoleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -33,6 +35,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserService userService;
     private final RoleService roleService;
     private final KmClient kmClient;
+    private final UserRoleHistoryRepository userRoleHistoryRepository;
 
     @Override
     @Transactional
@@ -167,6 +170,11 @@ public class UserRoleServiceImpl implements UserRoleService {
             log.warn("Failed to sync permissions to KM for user {} — role save succeeded, JWT claims may be stale: {}",
                     systemUserId, e.getMessage());
         }
+    }
+
+    @Override
+    public List<UserRoleAuditRecord> getHistory(UUID systemUserId) {
+        return userRoleHistoryRepository.findBySystemUserId(systemUserId);
     }
 
     private boolean anyRolesNotAssignable(Set<Role> assignableRoles, Set<UserRole> requests) {
