@@ -2,6 +2,7 @@ package com.example.accesscontrolmanager.controller;
 
 import com.example.accesscontrolmanager.controller.request.UserRoleListRequest;
 import com.example.accesscontrolmanager.exception.response.ApiError;
+import com.example.accesscontrolmanager.model.UserRoleAuditRecord;
 import com.example.accesscontrolmanager.model.UserRoleDto;
 import com.example.security.annotation.RequiresCapability;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,6 +69,15 @@ public interface UserRoleController {
     @GetMapping
     @RequiresCapability("Search and View users")
     List<UserRoleDto> getByUser(
+            @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a", required = true,
+                    description = "The user's unique reference")
+            @PathVariable UUID systemUserId);
+
+    @Operation(summary = "Get role assignment history",
+            description = "Returns the full role assignment audit trail for a user")
+    @GetMapping(API_HISTORY)
+    @RequiresCapability("Search and View users")
+    List<UserRoleAuditRecord> getHistory(
             @Parameter(example = "5dad5a08-73a2-5eds-2sdh-99fab505402a", required = true,
                     description = "The user's unique reference")
             @PathVariable UUID systemUserId);

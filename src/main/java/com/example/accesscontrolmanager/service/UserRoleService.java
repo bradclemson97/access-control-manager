@@ -1,6 +1,7 @@
 package com.example.accesscontrolmanager.service;
 
 import com.example.accesscontrolmanager.controller.request.UserRoleRequest;
+import com.example.accesscontrolmanager.model.UserRoleAuditRecord;
 import com.example.accesscontrolmanager.model.UserRoleDto;
 
 import java.util.List;
@@ -44,4 +45,12 @@ public interface UserRoleService {
      * @return UserRoleDto
      */
     UserRoleDto getByIdAndUser(Long id, UUID systemUserId);
+
+    /**
+     * Return the role assignment history for a user (all past states from the history table).
+     *
+     * @param systemUserId the systemUserId of the user
+     * @return list of historical role records, newest first
+     */
+    List<UserRoleAuditRecord> getHistory(UUID systemUserId);
 }

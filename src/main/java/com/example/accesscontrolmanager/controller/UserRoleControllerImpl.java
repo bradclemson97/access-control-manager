@@ -1,6 +1,7 @@
 package com.example.accesscontrolmanager.controller;
 
 import com.example.accesscontrolmanager.controller.request.UserRoleListRequest;
+import com.example.accesscontrolmanager.model.UserRoleAuditRecord;
 import com.example.accesscontrolmanager.model.UserRoleDto;
 import com.example.accesscontrolmanager.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,11 @@ public class UserRoleControllerImpl implements UserRoleController {
     public List<UserRoleDto> getByUser(UUID systemUserId) {
         log.info("GET {}{} user={}", API_VERSION, API_USER_ROLE, systemUserId);
         return userRoleService.getByUser(systemUserId);
+    }
+
+    @Override
+    public List<UserRoleAuditRecord> getHistory(UUID systemUserId) {
+        log.info("GET {}{}/history user={}", API_VERSION, API_USER_ROLE, systemUserId);
+        return userRoleService.getHistory(systemUserId);
     }
 }

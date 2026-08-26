@@ -19,6 +19,7 @@
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/config/JpaAuditingConfig.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/mapper/RoleInheritanceMapper.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/repository/RoleInheritanceRepository.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/filter/RequestMdcFilter.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/response/RoleAssignmentResponse.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/domain/enums/RoleTypeCode.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/service/UserServiceImpl.java
@@ -34,6 +35,7 @@
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/domain/User.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/response/RoleResponse.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/service/UserRoleServiceImpl.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/repository/UserRoleHistoryRepository.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/mapper/UserRoleMapper.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/mapper/RolePrivilegeMapper.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/mapper/JpaAuditMapper.java
@@ -55,6 +57,7 @@
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/model/UserDto.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/repository/UserRoleRepository.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/controller/request/UserRoleRequest.java
+/Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/model/UserRoleAuditRecord.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/domain/enums/YesNo.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/exception/ConflictException.java
 /Users/bradley.clemson/IdeaProjects/access-control-manager/src/main/java/com/example/accesscontrolmanager/service/RoleServiceImpl.java
