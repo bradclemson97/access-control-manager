@@ -34,7 +34,25 @@ public class UserRoleHistoryRepository {
                 WHERE urh.usr_id = (
                     SELECT usr_id FROM access_control.users WHERE system_user_id = ?
                 )
-                ORDER BY lower(urh.sys_period) DESC
+                UNION ALL
+                SELECT
+                    ur.ure_id,
+                    r.role_name,
+                    r.role_type_code,
+                    lower(ur.sys_period)      AS valid_from,
+                    NULL::timestamptz         AS valid_to,
+                    ur.created_by,
+                    ur.created_date,
+                    COALESCE(ud.first_name || ' ' || ud.last_name, ur.created_by::text) AS assigned_by_name
+                FROM access_control.user_roles ur
+                JOIN access_control.roles r ON r.roe_id = ur.roe_id
+                LEFT JOIN user_management.users umu ON umu.system_user_id = ur.created_by
+                LEFT JOIN user_management.user_details ud ON ud.usr_id = umu.usr_id
+                    AND ud.known_to_date IS NULL
+                WHERE ur.usr_id = (
+                    SELECT usr_id FROM access_control.users WHERE system_user_id = ?
+                )
+                ORDER BY valid_from DESC
                 """,
                 (rs, i) -> {
                     Timestamp validTo = rs.getTimestamp("valid_to");
@@ -51,6 +69,6 @@ public class UserRoleHistoryRepository {
                             .assignedAt(assignedAt != null ? assignedAt.toInstant() : null)
                             .build();
                 },
-                systemUserId);
+                systemUserId, systemUserId);
     }
 }
