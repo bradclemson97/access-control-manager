@@ -61,3 +61,9 @@ clients:
 
 keycloak-manager:
   url: ${KM_URL:http://localhost:8210}
+
+springdoc:
+  swagger-ui:
+    path: /v1/docs
+  api-docs:
+    path: /v1/api-docs

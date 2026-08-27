@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain mainFilterChain(HttpSecurity http, AccessControlAuthenticationConverter converter) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/health", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/actuator/health", "/v1/docs", "/v1/docs/**", "/v1/api-docs", "/v1/api-docs/**", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

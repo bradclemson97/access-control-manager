@@ -10,7 +10,9 @@ import com.example.accesscontrolmanager.domain.enums.InheritanceType;
 import com.example.accesscontrolmanager.domain.enums.RoleTypeCode;
 import com.example.accesscontrolmanager.exception.RoleAssignmentNotAllowedException;
 import com.example.accesscontrolmanager.mapper.UserRoleMapper;
+import com.example.accesscontrolmanager.model.UserRoleAuditRecord;
 import com.example.accesscontrolmanager.model.UserRoleDto;
+import com.example.accesscontrolmanager.repository.UserRoleHistoryRepository;
 import com.example.accesscontrolmanager.repository.UserRoleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +39,9 @@ class UserRoleServiceImplTest {
 
     @Mock
     private UserRoleRepository userRoleRepository;
+
+    @Mock
+    private UserRoleHistoryRepository userRoleHistoryRepository;
 
     @Mock
     private UserRoleMapper userRoleMapper;
@@ -213,5 +218,32 @@ class UserRoleServiceImplTest {
         assertThatThrownBy(() -> userRoleService.save(systemUserId, assignerUserId, List.of(request)))
                 .isInstanceOf(RoleAssignmentNotAllowedException.class)
                 .hasMessageContaining("Existing role cannot be removed");
+    }
+
+    @Test
+    @DisplayName("getHistory - returns audit records from repository")
+    void getHistory_returnsAuditRecords() {
+        UserRoleAuditRecord record = UserRoleAuditRecord.builder()
+                .userRoleId(1L)
+                .roleName("ADMIN")
+                .roleTypeCode("PERMISSION")
+                .validFrom(java.time.Instant.now())
+                .build();
+        given(userRoleHistoryRepository.findBySystemUserId(systemUserId)).willReturn(List.of(record));
+
+        List<UserRoleAuditRecord> result = userRoleService.getHistory(systemUserId);
+
+        assertThat(result).containsExactly(record);
+        then(userRoleHistoryRepository).should().findBySystemUserId(systemUserId);
+    }
+
+    @Test
+    @DisplayName("getHistory - returns empty list when no history exists")
+    void getHistory_returnsEmptyList() {
+        given(userRoleHistoryRepository.findBySystemUserId(systemUserId)).willReturn(List.of());
+
+        List<UserRoleAuditRecord> result = userRoleService.getHistory(systemUserId);
+
+        assertThat(result).isEmpty();
     }
 }
